@@ -1,13 +1,25 @@
 {
   "name": "switchbot-hub2-ble",
   "version": "1.0.0",
+  "description": "SwitchBot Hub2 BLE decoder and sensor scanner",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": ["dist", "README.md"],
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "scripts": {
     "build": "tsc",
     "test": "jest",
     "example": "ts-node examples/scan.ts"
   },
+  "keywords": ["switchbot", "ble", "hub2", "bluetooth", "sensor"],
+  "author": "Eduardo Abe",
+  "license": "MIT",
   "dependencies": {
     "@abandonware/noble": "^1.9.2-26"
   },
