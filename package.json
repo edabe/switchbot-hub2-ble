@@ -29,5 +29,9 @@
     "@types/jest": "^29.0.0",
     "ts-jest": "^29.0.0",
     "ts-node": "^10.9.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/edabe/switchbot-hub2-ble.git"
   }
 }
