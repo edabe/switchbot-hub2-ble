@@ -1,3 +1,18 @@
+/** ------------------------------------------------------------------------------------
+    MOCKING BLE LIBRARY (IMPORTANT)
+
+    We mock @abandonware/noble inline instead of using a __mocks__ folder for 3 reasons:
+
+    1. Native bindings in noble (via bluetooth-hci-socket) crash in headless environments
+       like GitHub Actions. Jest loads the real module before applying __mocks__, which
+       results in EAFNOSUPPORT or "Address family not supported by protocol" errors.
+
+    2. Inline mocking ensures that the mock is applied BEFORE the import happens.
+       This avoids ever loading native BLE code, even indirectly.
+
+    3. The mock includes all BLE methods used in Scanner.ts, so we can safely
+       unit test sensor sampling logic without accessing hardware.
+    ------------------------------------------------------------------------------------ */
 jest.mock('@abandonware/noble', () => ({
   __esModule: true,
   default: {
