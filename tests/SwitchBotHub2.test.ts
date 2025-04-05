@@ -1,7 +1,23 @@
-jest.mock('@abandonware/noble');
+jest.mock('@abandonware/noble', () => ({
+  __esModule: true,
+  default: {
+    on: jest.fn(),
+    startScanning: jest.fn(),
+    stopScanning: jest.fn(),
+    removeListener: jest.fn(),
+    removeAllListeners: jest.fn()
+  }
+}));
 
-import realNoble from '@abandonware/noble';
-const noble = realNoble as jest.Mocked<typeof realNoble>;
+import nobleImport from '@abandonware/noble';
+const noble = nobleImport as unknown as {
+  on: jest.Mock;
+  startScanning: jest.Mock;
+  stopScanning: jest.Mock;
+  removeListener: jest.Mock;
+  removeAllListeners: jest.Mock;
+};
+
 import { SwitchBotHub2 } from '../src/SwitchBotHub2';
 import { startSensorSampling } from '../src/Scanner';
 
