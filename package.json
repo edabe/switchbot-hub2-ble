@@ -15,11 +15,15 @@
   "scripts": {
     "build": "tsc",
     "test": "jest",
+    "coverage": "jest --coverage",
     "example": "ts-node examples/scan.ts"
   },
   "keywords": ["switchbot", "ble", "hub2", "bluetooth", "sensor"],
   "author": "Eduardo Abe",
   "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
   "dependencies": {
     "@abandonware/noble": "^1.9.2-26"
   },
