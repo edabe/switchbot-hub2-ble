@@ -3,7 +3,7 @@
 ![Build](https://github.com/edabe/switchbot-hub2-ble/actions/workflows/test.yml/badge.svg)
 ![npm](https://img.shields.io/npm/v/switchbot-hub2-ble)
 
-This module provides a complete and reusable BLE decoder for the **SwitchBot Hub2** device. It scans for BLE advertisements using `@abandonware/noble`, extracts environment sensor readings from the `manufacturerData` field, and returns a clean TypeScript object containing temperature, humidity, and light level.
+This module provides a complete and reusable BLE decoder for the **SwitchBot Hub2** device. It scans for BLE advertisements using `@abandonware/noble`, extracts environment sensor readings from the `manufacturerData` field, and returns a well defined TypeScript object containing temperature, humidity, and light level.
 
 ## ✅ Features
 
@@ -21,11 +21,12 @@ npm install switchbot-hub2-ble
 ## 🧪 Example Usage
 
 ```ts
-import { onSensorUpdate } from 'switchbot-hub2-ble';
+import { SwitchBotHub2, SwitchBotHub2Data } from 'switchbot-hub2-ble';
 
-onSensorUpdate((data) => {
+SwitchBotHub2.on('data', (data) => {
   console.log('Sensor Data:', data);
 });
+SwitchBotHub2.startScanning();
 ```
 
 ## 🧬 BLE Manufacturer Data Format
