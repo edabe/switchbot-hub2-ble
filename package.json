@@ -1,6 +1,6 @@
 {
   "name": "switchbot-hub2-ble",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "SwitchBot Hub2 BLE decoder and sensor scanner",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
