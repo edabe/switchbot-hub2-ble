@@ -33,8 +33,7 @@ const noble = nobleImport as unknown as {
   removeAllListeners: jest.Mock;
 };
 
-import { SwitchBotHub2 } from '../src/SwitchBotHub2';
-import { startSensorSampling } from '../src/Scanner';
+import { SwitchBotHub2, SwitchBotHub2Data } from '../src/SwitchBotHub2';
 
 const samples = [
   {
@@ -74,11 +73,43 @@ describe('SwitchBotHub2.decode', () => {
   });
 });
 
+describe('SwitchBotHub2.startScanning default parameter', () => {
+  let originalSetInterval: typeof setInterval;
+  let originalSampleAdvertisements: typeof SwitchBotHub2['sampleAdvertisements'];
+  let originalIsNoblePoweredOn: boolean
+  beforeEach(() => {
+    originalSetInterval = global.setInterval;
+    global.setInterval = jest.spyOn(global, 'setInterval') as unknown as typeof setInterval;
+    originalSampleAdvertisements = SwitchBotHub2['sampleAdvertisements'];
+    SwitchBotHub2['sampleAdvertisements'] = jest.fn();
+    originalIsNoblePoweredOn = SwitchBotHub2['isNoblePoweredOn'];
+    SwitchBotHub2['isNoblePoweredOn'] = true;
+  });
+  afterEach(() => {
+    global.setInterval = originalSetInterval;
+    SwitchBotHub2['sampleAdvertisements'] = originalSampleAdvertisements;
+    SwitchBotHub2['isNoblePoweredOn'] = originalIsNoblePoweredOn;
+  });
+  test('startScanning should accept no arguments', () => {
+    const options = SwitchBotHub2['defaultOptions'];
+    SwitchBotHub2.startScanning();
+    expect(setInterval).toHaveBeenCalledWith(SwitchBotHub2['sampleAdvertisements'], options.interval, options.duration);
+    SwitchBotHub2.stopScanning();
+  });
+  test('startScanning should accept custom options', () => {
+    const options = { interval: 10000, duration: 100 };
+    SwitchBotHub2.startScanning(options);
+    expect(setInterval).toHaveBeenCalledWith(SwitchBotHub2['sampleAdvertisements'], options.interval, options.duration);
+    SwitchBotHub2.stopScanning();
+  });
+});
+
 describe('Sensor sampler (mocked noble)', () => {
   test('triggers scanning on stateChange and handles discover', (done) => {
     const callback = jest.fn();
 
-    const stop = startSensorSampling(callback, 10000, 500);
+    SwitchBotHub2.on('data', callback);
+    SwitchBotHub2.startScanning({ interval: 10000, duration: 500 });
 
     // Simulate BLE powered on event
     const stateChange = noble.on.mock.calls.find(call => call[0] === 'stateChange')?.[1];
@@ -94,11 +125,11 @@ describe('Sensor sampler (mocked noble)', () => {
     discover?.(fakePeripheral);
 
     setTimeout(() => {
-      stop();
+      SwitchBotHub2.stopScanning();
       expect(callback).toHaveBeenCalled();
       expect(noble.startScanning).toHaveBeenCalled();
       expect(noble.stopScanning).toHaveBeenCalled();
-      expect(noble.removeAllListeners).toHaveBeenCalledWith('discover');
+      expect(noble.removeListener).toHaveBeenCalledWith('discover', expect.any(Function));
       done();
     }, 1000);
   });
