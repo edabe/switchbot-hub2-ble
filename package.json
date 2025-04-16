@@ -4,7 +4,10 @@
   "description": "SwitchBot Hub2 BLE decoder and sensor scanner",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "files": ["dist", "README.md"],
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "exports": {
     ".": {
       "import": "./dist/index.js",
@@ -18,21 +21,28 @@
     "coverage": "jest --coverage",
     "example": "ts-node examples/scan.ts"
   },
-  "keywords": ["switchbot", "ble", "hub2", "bluetooth", "sensor"],
+  "keywords": [
+    "switchbot",
+    "ble",
+    "hub2",
+    "bluetooth",
+    "sensor"
+  ],
   "author": "Eduardo Abe",
   "license": "MIT",
   "engines": {
     "node": ">=18"
   },
   "dependencies": {
-    "@abandonware/noble": "^1.9.2-26"
+    "@abandonware/noble": "^1.9.2-26",
+    "tslog": "^4.9.3"
   },
   "devDependencies": {
-    "typescript": "^5.0.0",
-    "jest": "^29.0.0",
     "@types/jest": "^29.0.0",
+    "jest": "^29.0.0",
     "ts-jest": "^29.0.0",
-    "ts-node": "^10.9.1"
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.0"
   },
   "repository": {
     "type": "git",
